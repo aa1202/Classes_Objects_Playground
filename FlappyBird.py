@@ -7,6 +7,7 @@ import random
 import webbrowser
 import pygame
 import pymysql
+import easygui as g
 
 # Modify the logging output. If it's logging.WARNING only logging.warning("someError") will be displayed.
 # If it's logging.INFO as default, every logging.info("someText") will be displayed.
@@ -455,7 +456,7 @@ def main_screen():
             if valid_connection:
                 if not modified_game_variables and outputScore >= score_requirement:
                     global highscoreName
-                    highscoreName = str(input("Enter your name for highscore purposes: "))
+                    highscoreName = g.enterbox("Please enter your name for highscores purposes")
                     write_score_to_database(outputScore, highscoreName)
                 elif modified_game_variables:
                     print("Modified game variables")
