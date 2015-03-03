@@ -180,7 +180,11 @@ def render_obstacle_2():
 def move_player(x, y):
     # Function for controlling the players movement
     pygame.draw.circle(game_display, black, [x, y], circle_width)
-
+    #Draw eyes
+    pygame.draw.circle(game_display, white, [x-int(circle_width/2),y-10], 5)
+    pygame.draw.circle(game_display, white, [x+int(circle_width/2),y-10], 5)
+    #Mouth
+    pygame.draw.rect(game_display, white, [x-10,y,20,5])
 
 def write_score_to_database(score, name):
     # Writes score and name to the MySQL database.
@@ -526,7 +530,7 @@ def main_screen():
             render_obstacle_2()
             second_pipe_location = display_width
 
-        # Hitdetection for circle (Currently rectangular collision)
+        # Hit-detection for circle (Currently rectangular collision)
         # Ground collision
         if y_playerpos + circle_width >= display_height or y_playerpos - circle_width <= 0:
             game_over = True
