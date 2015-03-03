@@ -1,8 +1,6 @@
 # ### IMPROVEMENTS AND BUGS THAT NEEDS TO BE FIXED ####
 # - Use sprites instead of circle
 # - Fix the score (make it so it doesn't count three times, rather just once)
-# - Make a version with classes
-
 
 import logging
 import random
