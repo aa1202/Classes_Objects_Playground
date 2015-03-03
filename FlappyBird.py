@@ -49,16 +49,17 @@ valid_connection = None
 score_requirement = 3
 color = None
 
-#Sets FPS and defines a color list (for the pipes)
+# Sets FPS and defines a color list (for the pipes)
 FPS = 60
 clock = pygame.time.Clock()
 colorList = [red, green, yellow, white, black, blue]
 
-#introMusic = pygame.mixer.Sound("introMusic.wav")
-#Defines some essentials fonts, which is used later on in the program when displaying text
+# introMusic = pygame.mixer.Sound("introMusic.wav")
+# Defines some essentials fonts, which is used later on in the program when displaying text
 smallfont = pygame.font.SysFont("comicsansms", 25)
 medfont = pygame.font.SysFont("comicsansms", 50)
 largefont = pygame.font.SysFont("comicsansms", 80)
+
 
 def text_objects(text, color, size):
     global textsurface
@@ -72,7 +73,7 @@ def text_objects(text, color, size):
 
 
 def connect_to_database():
-    #Connects to the MySQL database
+    # Connects to the MySQL database
     try:
         global db, valid_connection
         db = pymysql.connect(host='amundsen.co', user='amundxao_andreas', password='Tennis123',
@@ -93,43 +94,43 @@ def text_to_button(msg, color, buttonx, buttony, buttonwidth, buttonheight, size
 
 
 def message_to_screen_center(msg, color, y_displace=0, size="small"):
-    #Renders centered text to the screen
+    # Renders centered text to the screen
     text_surf, text_rect = text_objects(msg, color, size)
     text_rect.center = (display_width / 2), (display_height / 2) + y_displace
     game_display.blit(text_surf, text_rect)
 
 
 def message_to_screen_costumpos(msg, xpos, ypos, color, fontsize=25):
-    #Renders a customizable position textblock to the screen
+    # Renders a customizable position textblock to the screen
     font = pygame.font.SysFont("calibri", fontsize)
     text = font.render(msg, 1, color)
     game_display.blit(text, (xpos, ypos))
 
 
 def render_info_to_screen(score):
-    #Renders the ingame text, which includes current score, highest global highscore, gravity and force
+    # Renders the ingame text, which includes current score, highest global highscore, gravity and force
     if valid_connection:
         # Displays the highscore
         text = smallfont.render("Highscore: " + str(globalHighscoreScore), True, black)
         game_display.blit(text, [0, 30])
-        #Displays the current highscore holder's name
+        # Displays the current highscore holder's name
         text = smallfont.render("(" + str(globalHighscoreName) + ")", True, black)
         game_display.blit(text, [180, 30])
     if not valid_connection:
         message_to_screen_costumpos("No connection", 0, 30, black)
-    #Score
+    # Score
     text = smallfont.render("Score: " + str(score), True, black)
     game_display.blit(text, [0, 0])
-    #Gravity
+    # Gravity
     text = smallfont.render("Gravity: " + str(gravity), True, black)
     game_display.blit(text, [650, 0])
-    #Force
+    # Force
     text = smallfont.render("Force: " + str(force), True, black)
     game_display.blit(text, [650, 30])
 
 
 def load_top_highscore():
-    #Loads the current highscore holder's name as well as score, for renderInGameText to display
+    # Loads the current highscore holder's name as well as score, for renderInGameText to display
     connect_to_database()
     if valid_connection:
         cur.execute("SELECT * FROM highscores ORDER BY score DESC LIMIT 1")
@@ -142,7 +143,7 @@ def load_top_highscore():
 
 
 def obstacle_properties(recttype):
-    #Generates different rectangular properties for the two pipes displayed at once
+    # Generates different rectangular properties for the two pipes displayed at once
     global pipe_height, pipe_width, color, topPipe_height, pipe_height_2, toppipe_height_2
     pipe_width = 40
     color = red
@@ -161,28 +162,29 @@ def obstacle_properties(recttype):
 
 
 def render_obstacle_1():
-    #Draws one set of pipes to the screen
-    #Top Rectangle
+    # Draws one set of pipes to the screen
+    # Top Rectangle
     pygame.draw.rect(game_display, color, [first_pipe_location, 0, pipe_width, topPipe_height])
-    #Bottom Rectangle
+    # Bottom Rectangle
     pygame.draw.rect(game_display, color, [first_pipe_location, display_height, pipe_width, pipe_height])
 
 
 def render_obstacle_2():
-    #Draws a second set of pipes to the screen
-    #Top Rectangle
+    # Draws a second set of pipes to the screen
+    # Top Rectangle
     pygame.draw.rect(game_display, color, [second_pipe_location, 0, pipe_width, toppipe_height_2])
-    #Bottom Rectangle
+    # Bottom Rectangle
     pygame.draw.rect(game_display, color, [second_pipe_location, display_height, pipe_width, pipe_height_2])
 
 
 def move_player(x, y):
-    #Function for controlling the players movement
+    # Function for controlling the players movement
     pygame.draw.circle(game_display, black, [x, y], circle_width)
 
 
 def write_score_to_database(score, name):
-    #Writes score and name to the MySQL database. This function is called whenever the user crashes and the outputScore is >= 3
+    # Writes score and name to the MySQL database.
+    # This function is called whenever the user crashes and the outputScore is >= 3
     connect_to_database()
     cur = db.cursor()
     cur.execute(
@@ -191,7 +193,8 @@ def write_score_to_database(score, name):
 
 
 def button(text, x, y, width, height, inactivecolor, activecolor, action=None):
-    #Function "borrowed" from this tutorial (https://www.youtube.com/watch?v=D69T-pfI6LY&list=PL6gx4Cwl9DGAjkwJocj7vlc_mFU-4wXJq&index=46)
+    # Function "borrowed" from this tutorial
+    # (https://www.youtube.com/watch?v=D69T-pfI6LY&list=PL6gx4Cwl9DGAjkwJocj7vlc_mFU-4wXJq&index=46)
     cursor_pos = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     global gravity, force, second_pipe_location, first_pipe_location
@@ -207,18 +210,20 @@ def button(text, x, y, width, height, inactivecolor, activecolor, action=None):
                 first_pipe_location = 800
                 second_pipe_location = 400
                 main_screen()
-            #If the user presses "Mute music" the mixerPlaying variable is set to False. This means that the "Resume music"
-            #button will appear. The music is also set on pause, and can be resumed.
+            # If the user presses "Mute music" the mixerPlaying variable is set to False.
+            # This means that the "Resume music"button will appear.
+            # The music is also set on pause, and can be resumed.
             if action == "muteMusic":
                 logging.info("LOG: Stopped music")
                 global mixer_playing
                 mixer_playing = False
                 pygame.mixer.pause()
-            #IF the user presses "Resume music" the mixerPlaying variable is set to True. This means that the "Mute music"
-            #button will appear. It seemed like earlier the sound just looped over and over, so watch out for that
+            # IF the user presses "Resume music" the mixerPlaying variable is set to True.
+            # This means that the "Mute music"
+            # button will appear. It seemed like earlier the sound just looped over and over, so watch out for that
             if action == "resumeMusic":
                 mixer_playing = True
-                #introMusic.play()
+                # introMusic.play()
                 logging.info("LOG: Resumed music")
             if action == "globalhighscores":
                 highscore_screen()
@@ -246,7 +251,7 @@ def button(text, x, y, width, height, inactivecolor, activecolor, action=None):
 
 
 def pause_screen():
-    #A pause function, which freezes the game. Will be activated when the user press P
+    # A pause function, which freezes the game. Will be activated when the user press P
     paused = True
     message_to_screen_center("Paused", black, -100, size="large")
     message_to_screen_center("Press C to continue or Q to quit", black, 25)
@@ -266,8 +271,8 @@ def pause_screen():
 
 
 def highscore_screen():
-    #introMusic.play(5)
-    #Seperate screen which shows the top 10 highscores from the database
+    # introMusic.play(5)
+    # Seperate screen which shows the top 10 highscores from the database
     connect_to_database()
     controls_screen = True
     while controls_screen:
@@ -284,21 +289,21 @@ def highscore_screen():
                     global globalHighscore
                     globalHighscore = [row[0], row[1], row[2]]
 
-                    #Loops trough determined how many rows there are
+                    # Loops trough determined how many rows there are
                     message_to_screen_costumpos("ID: " + str(globalHighscore[0]), 10, text_y_pos, red)
                     message_to_screen_costumpos("Username: " + str(globalHighscore[1]), 150, text_y_pos, red)
                     message_to_screen_costumpos("Score: " + str(globalHighscore[2]), 520, text_y_pos, red)
                     text_y_pos += 41
 
-                    #Renders the headline as well as the black borders on the screen
+                    # Renders the headline as well as the black borders on the screen
                     message_to_screen_center("GLOBAL HIGHSCORES", green, -265, "medium")
-                    #ID separator line
+                    # ID separator line
                     pygame.draw.rect(game_display, black, [135, 75, 5, 410])
-                    #Headline separator line
+                    # Headline separator line
                     pygame.draw.rect(game_display, black, [0, 75, 800, 5])
-                    #Username and score separator line
+                    # Username and score separator line
                     pygame.draw.rect(game_display, black, [500, 75, 5, 410])
-                    #Bottom line
+                    # Bottom line
                     pygame.draw.rect(game_display, black, [0, 485, 800, 5])
             if not valid_connection:
                 message_to_screen_center("Can't connect to MySQL database", red, -100)
@@ -312,7 +317,7 @@ def highscore_screen():
 
 
 def controls_screen():
-    #Seperate screen which allows the user to customize gameplay variables
+    # Seperate screen which allows the user to customize gameplay variables
     controls_screen = True
     while controls_screen:
         for event in pygame.event.get():
@@ -356,18 +361,18 @@ def controls_screen():
                 global modified_game_variables
                 modified_game_variables = True
 
-            #Headline separator
+            # Headline separator
             pygame.draw.rect(game_display, black, [0, 75, 800, 5])
-            #Gravity and force separator line (vertical)
+            # Gravity and force separator line (vertical)
             pygame.draw.rect(game_display, black, [320, 75, 5, 205])
-            #Gravity and force separator line (horizontal)
+            # Gravity and force separator line (horizontal)
             pygame.draw.rect(game_display, black, [0, 177, display_width, 5])
             pygame.draw.rect(game_display, black, [0, 279, display_width, 5])
-            #pygame.draw.rect(gameDisplay, black, [0, 381, display_width, 5])
-            #Number separator line
+            # pygame.draw.rect(gameDisplay, black, [0, 381, display_width, 5])
+            # Number separator line
             pygame.draw.rect(game_display, black, [450, 75, 5, 205])
-            #Bottom line
-            #pygame.draw.rect(gameDisplay, black, [0,485,800,5])
+            # Bottom line
+            # pygame.draw.rect(gameDisplay, black, [0,485,800,5])
 
             button("Play", 0, 550, 266, 50, green, light_green, action="play")
             button("Main menu", 266, 550, 266, 50, yellow, light_yellow, action="mainmenu")
@@ -379,7 +384,7 @@ def controls_screen():
 
 def intro_screen():
     intro = True
-    #introMusic.play(5)
+    # introMusic.play(5)
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -403,10 +408,10 @@ def intro_screen():
             button("Global highscores", 0, 0, 220, 50, red, light_red, action="globalhighscores")
             button("Visit my webpage", 0, 50, 220, 50, green, light_green, action="visitwebpage")
 
-            #If the mixer IS NOT playing a "Resume music" button is being displayed
+            # If the mixer IS NOT playing a "Resume music" button is being displayed
             if not mixer_playing:
                 button("Resume music", display_height - 150, 0, 200, 50, red, light_red, action="resumeMusic")
-            #If the mixer IS PLAYING a "Mute music button is being displayed
+            # If the mixer IS PLAYING a "Mute music button is being displayed
             if mixer_playing:
                 button("Mute music", display_width - 150, 0, 150, 50, green, light_green, action="muteMusic")
 
@@ -415,7 +420,8 @@ def intro_screen():
 
 
 def main_screen():
-    global final_score, outputScore, first_pipe_location, toppipe_height_2, pipe_height_2, second_pipe_location, globalHighscoreScore
+    global final_score, outputScore, first_pipe_location, toppipe_height_2
+    global pipe_height_2, second_pipe_location, globalHighscoreScore
 
     first_pipe_location = 800
     second_pipe_location = 400
@@ -430,13 +436,13 @@ def main_screen():
     obstacle_properties(1)
     render_obstacle_1()
 
-    #This block makes sure that the first rect does not render, so the player has some time to prepare
+    # This block makes sure that the first rect does not render, so the player has some time to prepare
     toppipe_height_2 = 0
     pipe_height_2 = 0
     render_obstacle_2()
     not_crossed = True
 
-    #Loads the current highscore from the database, and feeds it to the renderInGameText function
+    # Loads the current highscore from the database, and feeds it to the renderInGameText function
     load_top_highscore()
     logging.info("LOG: Rect Generated")
 
@@ -498,39 +504,39 @@ def main_screen():
         first_pipe_location -= pipe_speed
         second_pipe_location -= pipe_speed
 
-        #Redraws the rect based on lead_x, lead_x_2 and y changes
+        # Redraws the rect based on lead_x, lead_x_2 and y changes
         game_display.blit(background, [0, 0])
         render_obstacle_1()
         render_obstacle_2()
         move_player(x_playerpos, y_playerpos)
 
-        #Displays the highscore (and name) and current score
+        # Displays the highscore (and name) and current score
         outputScore = int(final_score / 3)
         render_info_to_screen(outputScore)
 
-        #Hitdetection for pipes
+        # Hitdetection for pipes
         if first_pipe_location >= display_width or first_pipe_location < 0:
-            #Generates new attributes for the first set of pipes, and then renders it with obstacle_properties(1)
+            # Generates new attributes for the first set of pipes, and then renders it with obstacle_properties(1)
             obstacle_properties(1)
             render_obstacle_1()
             first_pipe_location = display_width
         if second_pipe_location >= display_width or second_pipe_location < 0:
-            #Generates new attributes for the second set of pipes, and then renders it with obstacle_properties(2)
+            # Generates new attributes for the second set of pipes, and then renders it with obstacle_properties(2)
             obstacle_properties(2)
             render_obstacle_2()
             second_pipe_location = display_width
 
-        #Hitdetection for circle (Currently rectangular collision)
-        #Ground collision
+        # Hitdetection for circle (Currently rectangular collision)
+        # Ground collision
         if y_playerpos + circle_width >= display_height or y_playerpos - circle_width <= 0:
             game_over = True
-        #TOP COLLIDE
+        # TOP COLLIDE
         if x_playerpos + circle_width > first_pipe_location and y_playerpos - circle_width <= topPipe_height or x_playerpos + circle_width > second_pipe_location and y_playerpos - circle_width <= toppipe_height_2:
             game_over = True
-        #BOT COLLIDE
+        # BOT COLLIDE
         if x_playerpos + circle_width > first_pipe_location and y_playerpos + circle_width >= display_height + pipe_height or x_playerpos + circle_width > second_pipe_location and y_playerpos + circle_width >= display_height + pipe_height_2:
             game_over = True
-        #Score incrementation
+        # Score incrementation
         if x_playerpos + circle_width > first_pipe_location > x_playerpos or x_playerpos + circle_width > second_pipe_location > x_playerpos:
             if not_crossed:
                 pass
@@ -538,12 +544,14 @@ def main_screen():
                 final_score += 1
             not_crossed = False
 
-        #Checks if pipes exceeds over screen borders (should't really happen in theory)
+        # Checks if pipes exceeds over screen borders (should't really happen in theory)
         if pipe_height > display_height or pipe_width > display_width or topPipe_height > display_height:
             logging.error("Rect crossed screen borders - fix it")
 
         clock.tick(FPS)
         pygame.display.update()
 
-#Starts the game by calling intro_screen function
+# Starts the game by calling intro_screen function
 intro_screen()
+
+
