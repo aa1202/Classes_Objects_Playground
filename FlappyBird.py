@@ -24,8 +24,6 @@ pygame.display.set_caption('Flappy Bird')
 background = pygame.image.load("bg.jpg").convert()
 game_display.blit(background, [0, 0])
 
-Erling er gay
-
 # Defines some essentials colors
 white = (255, 255, 255)
 black = (0, 0, 0)
