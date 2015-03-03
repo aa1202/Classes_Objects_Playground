@@ -115,6 +115,7 @@ def load_top_highscore():
     else:
         pass
 
+
 def render_info_to_screen(score):
     # Renders the ingame text, which includes current score, highest global highscore, gravity and force
     if valid_connection:
@@ -135,6 +136,7 @@ def render_info_to_screen(score):
     # Force
     text = smallfont.render("Force: " + str(force), True, black)
     game_display.blit(text, [650, 30])
+
 
 def obstacle_properties(recttype):
     # Generates different rectangular properties for the two pipes displayed at once
