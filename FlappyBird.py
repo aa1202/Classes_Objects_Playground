@@ -9,6 +9,7 @@ import pygame
 import pymysql
 import easygui as g
 
+
 # Modify the logging output. If it's logging.WARNING only logging.warning("someError") will be displayed.
 # If it's logging.INFO as default, every logging.info("someText") will be displayed.
 logging.getLogger().setLevel(logging.WARNING)
@@ -72,22 +73,6 @@ def text_objects(text, color, size):
         textsurface = largefont.render(text, True, color)
     return textsurface, textsurface.get_rect()
 
-
-def connect_to_database():
-    # Connects to the MySQL database
-    try:
-        global db, valid_connection
-        db = pymysql.connect(host='amundsen.co', user='amundxao_andreas', password='Tennis123',
-                             database='amundxao_globalhighscores')
-        logging.info("Connected successfully!")
-        valid_connection = True
-        global cur
-        cur = db.cursor()
-        global e
-    except Exception as e:
-        valid_connection = False
-
-
 def text_to_button(msg, color, buttonx, buttony, buttonwidth, buttonheight, size="small"):
     text_surf, text_rect = text_objects(msg, color, size)
     text_rect.center = ((buttonx + (buttonwidth / 2)), buttony + (buttonheight / 2))
@@ -100,13 +85,35 @@ def message_to_screen_center(msg, color, y_displace=0, size="small"):
     text_rect.center = (display_width / 2), (display_height / 2) + y_displace
     game_display.blit(text_surf, text_rect)
 
-
 def message_to_screen_costumpos(msg, xpos, ypos, color, fontsize=25):
     # Renders a customizable position textblock to the screen
     font = pygame.font.SysFont("calibri", fontsize)
     text = font.render(msg, 1, color)
     game_display.blit(text, (xpos, ypos))
 
+def connect_to_database():
+    # Connects to the MySQL database
+    global valid_connection, cur
+    try:
+        db = pymysql.connect(host='amundsen.co', user='amundxao_andreas', password='Tennis123',
+                             database='amundxao_globalhighscores')
+        cur = db.cursor()
+        valid_connection = True
+    except:
+        valid_connection = False
+
+def load_top_highscore():
+    # Loads the current highscore holder's name as well as score, for renderInGameText to display
+    connect_to_database()
+    if valid_connection:
+        global cur
+        cur.execute("SELECT * FROM highscores ORDER BY score DESC LIMIT 1")
+        for row in cur.fetchall():
+            global globalHighscoreName, globalHighscoreScore
+            globalHighscoreName = row[1]
+            globalHighscoreScore = row[2]
+    else:
+        pass
 
 def render_info_to_screen(score):
     # Renders the ingame text, which includes current score, highest global highscore, gravity and force
@@ -128,20 +135,6 @@ def render_info_to_screen(score):
     # Force
     text = smallfont.render("Force: " + str(force), True, black)
     game_display.blit(text, [650, 30])
-
-
-def load_top_highscore():
-    # Loads the current highscore holder's name as well as score, for renderInGameText to display
-    connect_to_database()
-    if valid_connection:
-        cur.execute("SELECT * FROM highscores ORDER BY score DESC LIMIT 1")
-        for row in cur.fetchall():
-            global globalHighscoreName, globalHighscoreScore
-            globalHighscoreName = row[1]
-            globalHighscoreScore = row[2]
-    else:
-        pass
-
 
 def obstacle_properties(recttype):
     # Generates different rectangular properties for the two pipes displayed at once
@@ -556,7 +549,8 @@ def main_screen():
         clock.tick(FPS)
         pygame.display.update()
 
-# Starts the game by calling intro_screen function
 intro_screen()
+
+
 
 
