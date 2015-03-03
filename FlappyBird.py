@@ -317,7 +317,7 @@ def highscore_screen():
 
 
 def controls_screen():
-    # Seperate screen which allows the user to customize gameplay variables
+    # Separate screen which allows the user to customize gameplay variables
     controls_screen = True
     while controls_screen:
         for event in pygame.event.get():
