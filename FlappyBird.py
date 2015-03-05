@@ -7,8 +7,6 @@ import random
 import webbrowser
 import pygame
 import pymysql
-import easygui as g
-
 
 # Modify the logging output. If it's logging.WARNING only logging.warning("someError") will be displayed.
 # If it's logging.INFO as default, every logging.info("someText") will be displayed.
@@ -99,8 +97,10 @@ def connect_to_database():
                              database='amundxao_globalhighscores')
         cur = db.cursor()
         valid_connection = True
+        print("Connection successful!")
     except:
         valid_connection = False
+        print("Connection failed!")
 
 def load_top_highscore():
     # Loads the current highscore holder's name as well as score, for renderInGameText to display
@@ -177,8 +177,10 @@ def move_player(x, y):
     #Draw eyes
     pygame.draw.circle(game_display, white, [x-int(circle_width/2),y-10], 5)
     pygame.draw.circle(game_display, white, [x+int(circle_width/2),y-10], 5)
+    pygame.draw.circle(game_display, red, [x-int(circle_width/2),y-10], 2)
+    pygame.draw.circle(game_display, red, [x+int(circle_width/2),y-10], 2)
     #Mouth
-    pygame.draw.rect(game_display, white, [x-10,y,20,5])
+    pygame.draw.rect(game_display, blue, [x-10,y,20,5])
 
 def write_score_to_database(score, name):
     # Writes score and name to the MySQL database.
