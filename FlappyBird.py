@@ -7,6 +7,7 @@ import random
 import webbrowser
 import pygame
 import pymysql
+import easygui as g
 
 # Modify the logging output. If it's logging.WARNING only logging.warning("someError") will be displayed.
 # If it's logging.INFO as default, every logging.info("someText") will be displayed.
@@ -271,10 +272,9 @@ def pause_screen():
                     quit()
         clock.tick(5)
 
-
 def highscore_screen():
     # introMusic.play(5)
-    # Seperate screen which shows the top 10 highscores from the database
+    # Separate screen which shows the top 10 highscores from the database
     connect_to_database()
     controls_screen = True
     while controls_screen:
