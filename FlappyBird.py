@@ -180,7 +180,7 @@ def move_player(x, y):
     pygame.draw.circle(game_display, red, [x-int(circle_width/2),y-10], 2)
     pygame.draw.circle(game_display, red, [x+int(circle_width/2),y-10], 2)
     #Mouth
-    pygame.draw.rect(game_display, blue, [x-10,y,20,5])
+    #pygame.draw.rect(game_display, blue, [x-10,y,20,5])
 
 def write_score_to_database(score, name):
     # Writes score and name to the MySQL database.
