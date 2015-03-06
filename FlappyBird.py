@@ -72,6 +72,7 @@ def text_objects(text, color, size):
         textsurface = largefont.render(text, True, color)
     return textsurface, textsurface.get_rect()
 
+
 def text_to_button(msg, color, buttonx, buttony, buttonwidth, buttonheight, size="small"):
     text_surf, text_rect = text_objects(msg, color, size)
     text_rect.center = ((buttonx + (buttonwidth / 2)), buttony + (buttonheight / 2))
@@ -84,11 +85,13 @@ def message_to_screen_center(msg, color, y_displace=0, size="small"):
     text_rect.center = (display_width / 2), (display_height / 2) + y_displace
     game_display.blit(text_surf, text_rect)
 
+
 def message_to_screen_costumpos(msg, xpos, ypos, color, fontsize=25):
     # Renders a customizable position textblock to the screen
     font = pygame.font.SysFont("calibri", fontsize)
     text = font.render(msg, 1, color)
     game_display.blit(text, (xpos, ypos))
+
 
 def connect_to_database():
     # Connects to the MySQL database
@@ -102,6 +105,7 @@ def connect_to_database():
     except:
         valid_connection = False
         print("Connection failed!")
+
 
 def load_top_highscore():
     # Loads the current highscore holder's name as well as score, for renderInGameText to display
@@ -184,6 +188,7 @@ def move_player(x, y):
     pygame.draw.circle(game_display, red, [x+int(circle_width/2),y-10], 2)
     #Mouth
     #pygame.draw.rect(game_display, blue, [x-10,y,20,5])
+
 
 def write_score_to_database(score, name):
     # Writes score and name to the MySQL database.
@@ -271,6 +276,7 @@ def pause_screen():
                     pygame.quit()
                     quit()
         clock.tick(5)
+
 
 def highscore_screen():
     # introMusic.play(5)
