@@ -15,25 +15,33 @@ class Rectangle():
     def draw(self):
         pygame.draw.rect(gameDisplay, random.choice(colorList), [self.x, self.y, self.height, self.width])
 
+class Circle():
+    def __init__(self, x, y, radius):
+        self.x = x
+        self.y = y
+        self.radius = radius
+    def draw(self):
+        pygame.draw.circle(gameDisplay, random.choice(colorList), (self.x, self.y), self.radius)
+
 pygame.init()
 size = [300,300]
 gameDisplay = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
-myObject = Rectangle()
 
 while True:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-
-    for i in range(200):
-        gameDisplay.fill((0, 0, 0))
-        myObject = Rectangle(random.randint(1,300), random.randint(1,300), random.randint(1,50), random.randint(1,50))
-        myObject.draw()
-        myObject = Rectangle(random.randint(1,300), random.randint(1,300), random.randint(1,50), random.randint(1,50))
-        myObject.draw()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                myRect = Rectangle(random.randint(1,300), random.randint(1,300), random.randint(1,50), random.randint(1,50))
+                myRect.draw()
+            if event.key == pygame.K_c:
+                myCircle = Circle(random.randint(1,300), random.randint(1,300), random.randint(1,20))
+                myCircle.draw()
 
         pygame.display.update()
         clock.tick(60)
-    break
+
 
