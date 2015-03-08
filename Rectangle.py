@@ -23,6 +23,10 @@ class Pipe():
         self.y = y
         self.height = height
         self.width = width
+    def update(self):
+        #Pipe position update
+        first_pipe_pos -= 3
+        second_pipe_pos -= 3
     def draw(self):
         pygame.draw.rect(gameDisplay, green, [self.x, self.y, self.height, self.width])
         pygame.draw.rect(gameDisplay, green, [self.x, 0, self.height, self.width])
