@@ -60,6 +60,7 @@ while True:
     elif direction == "down":
         player_position += 2
 
+
     first_pipe_pos -= 3
     second_pipe_pos -= 3
 
