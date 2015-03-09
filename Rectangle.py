@@ -1,8 +1,6 @@
 import pygame
 import sys
 
-
-
 pygame.init()
 display_width = 900
 display_height = 600
@@ -16,6 +14,7 @@ direction = None
 
 red = (255, 0, 0)
 green = (0, 255, 0)
+blue = (0, 0, 255)
 
 class Pipe():
     def __init__(self, x, y, width, height):
@@ -23,24 +22,30 @@ class Pipe():
         self.y = y
         self.height = height
         self.width = width
-    def update(self):
-        #Pipe position update
-        first_pipe_pos -= 3
-        second_pipe_pos -= 3
-    def draw(self):
-        pygame.draw.rect(gameDisplay, green, [self.x, self.y, self.height, self.width])
+    def draw(self, x):
+        self.x = x
+        #TOP
         pygame.draw.rect(gameDisplay, green, [self.x, 0, self.height, self.width])
+        #BOT
+        pygame.draw.rect(gameDisplay, green, [self.x, self.y, self.height, self.width])
 
 class Player():
     def __init__(self, x, y, width):
         self.x = x
         self.y = y
         self.width = width
-    def draw(self):
+    def draw(self, y):
+        self.y = y
         pygame.draw.circle(gameDisplay, red, (self.x, self.y), self.width)
 
+
+#Initializes the player and the pipes
+player = Player(30, player_position, 20)
+first_pipe = Pipe(first_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30)
+second_pipe = Pipe(second_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30)
+
 while True:
-    gameDisplay.fill((255,255,255))
+    gameDisplay.fill(blue)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -51,20 +56,15 @@ while True:
 
     if direction == "up":
         player_position -= 2
-    if direction == "down":
+    elif direction == "down":
         player_position += 2
 
-    player = Player(30, player_position, 20)
-    player.draw()
-
-    #Pipe position update
     first_pipe_pos -= 3
     second_pipe_pos -= 3
 
-    pipe = Pipe(second_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30)
-    pipe.draw()
-    pipe = Pipe(first_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30)
-    pipe.draw()
+    player.draw(player_position)
+    first_pipe.draw(first_pipe_pos)
+    second_pipe.draw(second_pipe_pos)
 
     #Chekcs if one of the pipes has crossed the left border, and assigns a new position
     if first_pipe_pos >= display_width or first_pipe_pos < 0:
