@@ -50,6 +50,7 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
         if event.type == pygame.KEYDOWN:
+
             direction = "up"
         if event.type == pygame.KEYUP:
             direction = "down"
