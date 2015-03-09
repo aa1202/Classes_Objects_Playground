@@ -11,69 +11,86 @@ first_pipe_pos = int(display_width)
 second_pipe_pos = int(display_width/2)
 player_position = int(display_height/2)
 direction = None
+player_img = pygame.image.load("flappy.jpg")
 
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 
-
 class Pipe():
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, pipe_speed):
         self.x = x
         self.y = y
         self.height = height
         self.width = width
-    def draw(self, x):
-        self.x = x
-        #TOP
-        pygame.draw.rect(gameDisplay, green, [self.x, 0, self.height, self.width])
-        #BOT
-        pygame.draw.rect(gameDisplay, green, [self.x, self.y, self.height, self.width])
+        self.pipe_speed = pipe_speed
 
-class Player():
-    def __init__(self, x, y, width):
+    def update_x_position(self):
+        self.x -= self.pipe_speed
+
+    def draw(self):
+        pygame.draw.rect(gameDisplay, green, [self.x, 0, self.height, self.width]) #TOP
+        pygame.draw.rect(gameDisplay, green, [self.x, self.y, self.height, self.width]) #BOT
+
+    def left_collide(self):
+        if self.x >= display_width or self.x < 0:
+            self.x = display_width
+
+
+class Bird(pygame.sprite.Sprite):
+    def __init__(self, x, y, gravity, force):
+        self.image = player_img
         self.x = x
         self.y = y
-        self.width = width
-    def draw(self, y):
-        self.y = y
-        pygame.draw.circle(gameDisplay, red, (self.x, self.y), self.width)
+        self.direction = "none"
+        self.gravity = gravity
+        self.force = force
 
+    def direction_controller(self):
+        if self.direction == "down":
+            self.y += self.gravity
+        if self.direction == "up":
+            self.y -= self.force
+
+    def handle_keys(self):
+        if event.type == pygame.KEYDOWN:
+            self.direction = "up"
+        if event.type == pygame.KEYUP:
+            self.direction = "down"
+
+    def draw(self, surface):
+        surface.blit(self.image, (self.x, self.y))
 
 #Initializes the player and the pipes
-player = Player(30, player_position, 20)
-first_pipe = Pipe(first_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30)
-second_pipe = Pipe(second_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30)
+first_pipe = Pipe(first_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30, 3)
+second_pipe = Pipe(second_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30, 3)
+bird = Bird(10, display_height/2, 5, 3)
+
 
 while True:
     gameDisplay.fill(blue)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        if event.type == pygame.KEYDOWN:
 
-            direction = "up"
-        if event.type == pygame.KEYUP:
-            direction = "down"
+    # DESCRIPTION controls the birds movement
+    bird.handle_keys()
+    bird.direction_controller()
 
-    if direction == "up":
-        player_position -= 2
-    elif direction == "down":
-        player_position += 2
+    # DESCRIPTION blits the player to the screen
+    bird.draw(gameDisplay)
 
+    # DESCRIPTION updates the pipe positions
+    first_pipe.update_x_position()
+    second_pipe.update_x_position()
 
-    first_pipe_pos -= 3
-    second_pipe_pos -= 3
+    # DESCRIPTION redraws the pipes
+    first_pipe.draw()
+    second_pipe.draw()
 
-    player.draw(player_position)
-    first_pipe.draw(first_pipe_pos)
-    second_pipe.draw(second_pipe_pos)
-
-    #Chekcs if one of the pipes has crossed the left border, and assigns a new position
-    if first_pipe_pos >= display_width or first_pipe_pos < 0:
-        first_pipe_pos = display_width
-    if second_pipe_pos >= display_width or second_pipe_pos < 0:
-        second_pipe_pos = display_width
+    # DESCRIPTION check if one of the pipe classes has crossed the left edge
+    first_pipe.left_collide()
+    second_pipe.left_collide()
 
     pygame.display.update()
     clock.tick(60)
