@@ -20,7 +20,7 @@ display_width = 800
 display_height = 600
 game_display = pygame.display.set_mode([display_width, display_height])
 pygame.display.set_caption('Flappy Bird')
-background = pygame.image.load("bg.jpg").convert()
+background = pygame.image.load("Sprites\\bg.jpg").convert()
 game_display.blit(background, [0, 0])
 
 # Defines some essentials colors

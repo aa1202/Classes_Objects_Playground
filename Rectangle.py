@@ -11,7 +11,7 @@ first_pipe_pos = int(display_width)
 second_pipe_pos = int(display_width/2)
 player_position = int(display_height/2)
 direction = None
-player_img = pygame.image.load("flappy.jpg")
+player_img = pygame.image.load("Sprites\\flappy.jpg")
 
 red = (255, 0, 0)
 green = (0, 255, 0)
