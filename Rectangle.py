@@ -25,10 +25,8 @@ class Pipe():
         self.width = width
         self.pipe_speed = pipe_speed
 
-    def update_x_position(self):
-        self.x -= self.pipe_speed
-
     def draw(self):
+        self.x -= self.pipe_speed
         pygame.draw.rect(gameDisplay, green, [self.x, 0, self.height, self.width]) #TOP
         pygame.draw.rect(gameDisplay, green, [self.x, self.y, self.height, self.width]) #BOT
 
@@ -66,7 +64,6 @@ first_pipe = Pipe(first_pipe_pos, display_height/2 + 50, display_height/2 - 50, 
 second_pipe = Pipe(second_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30, 3)
 bird = Bird(10, display_height/2, 5, 3)
 
-
 while True:
     gameDisplay.fill(blue)
     for event in pygame.event.get():
@@ -79,10 +76,6 @@ while True:
 
     # DESCRIPTION blits the player to the screen
     bird.draw(gameDisplay)
-
-    # DESCRIPTION updates the pipe positions
-    first_pipe.update_x_position()
-    second_pipe.update_x_position()
 
     # DESCRIPTION redraws the pipes
     first_pipe.draw()
