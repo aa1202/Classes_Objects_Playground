@@ -150,14 +150,14 @@ def obstacle_properties(recttype):
     color = red
     if recttype == 1:
         pipe_positions = random.choice(
-            [(0, -500), (50, -450), (100, -400), (150, -350), (200, -300), (250, -250), (300, -200), (350, -150),
-             (400, -100), (450, -50), (500, 0)])
+            [(100, -400), (150, -350), (200, -300), (250, -250), (300, -200), (350, -150),
+             (400, -100)])
         topPipe_height = pipe_positions[0]
         pipe_height = pipe_positions[1]
     elif recttype == 2:
         pipe_positions_2 = random.choice(
-            [(0, -500), (50, -450), (100, -400), (150, -350), (200, -300), (250, -250), (300, -200), (350, -150),
-             (400, -100), (450, -50), (500, 0)])
+            [(150, -350), (200, -300), (250, -250), (300, -200), (350, -150),
+             (400, -100)])
         toppipe_height_2 = pipe_positions_2[0]
         pipe_height_2 = pipe_positions_2[1]
 
@@ -194,6 +194,7 @@ def write_score_to_database(score, name):
     # Writes score and name to the MySQL database.
     # This function is called whenever the user crashes and the outputScore is >= 3
     connect_to_database()
+    global db
     cur = db.cursor()
     cur.execute(
         "INSERT INTO highscores (username, score) VALUES ('" + str(name) + "'," + str(score) + ")")
@@ -253,6 +254,7 @@ def button(text, x, y, width, height, inactivecolor, activecolor, action=None):
                 force = 5
             if action == "visitwebpage":
                 webbrowser.open_new("http://www.amundsen.co")
+
     else:
         pygame.draw.rect(game_display, inactivecolor, (x, y, width, height))
     text_to_button(text, black, x, y, width, height)
