@@ -91,25 +91,6 @@ def message_to_screen_costumpos(msg, xpos, ypos, color, fontsize=25):
     text = font.render(msg, 1, color)
     game_display.blit(text, (xpos, ypos))
 
-
-"""
-def connect_to_database():
-    print("Function works")
-    import pymysql
-    # Connects to the MySQL database
-    global valid_connection, cur
-    try:
-        db = pymysql.connect(host='amundsen.co', user='amundxao_andreas', password='Tennis123',
-                             database='amundxao_globalhighscores')
-        cur = db.cursor()
-        valid_connection = True
-        print("Connection successful!")
-    except:
-        valid_connection = False
-        print("Connection failed!")
-"""
-
-
 def load_top_highscore():
     # Loads the current highscore holder's name as well as score, for renderInGameText to display
     if valid_connection:
