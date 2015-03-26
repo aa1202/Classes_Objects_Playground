@@ -6,8 +6,8 @@ import logging
 import random
 import webbrowser
 import pygame
+import pymysql
 from database import connect_to_database
-import easygui as g
 
 # Modify the logging output. If it's logging.WARNING only logging.warning("someError") will be displayed.
 # If it's logging.INFO as default, every logging.info("someText") will be displayed.
