@@ -6,5 +6,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Kodeklubben" />
     <orderEntry type="module" module-name="PythonChallenge" />
+    <orderEntry type="module" module-name="ProbabilityTree" />
   </component>
 </module>
