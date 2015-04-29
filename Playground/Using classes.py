@@ -6,12 +6,7 @@ display_width = 900
 display_height = 600
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 clock = pygame.time.Clock()
-
-first_pipe_pos = int(display_width)
-second_pipe_pos = int(display_width/2)
-player_position = int(display_height/2)
 direction = None
-player_img = pygame.image.load("flappy.jpg")
 
 red = (255, 0, 0)
 green = (0, 255, 0)
@@ -37,7 +32,7 @@ class Pipe():
 
 class Bird(pygame.sprite.Sprite):
     def __init__(self, x, y, gravity, force):
-        self.image = player_img
+        self.image = pygame.image.load("flappy.jpg")
         self.x = x
         self.y = y
         self.direction = "none"
@@ -60,8 +55,9 @@ class Bird(pygame.sprite.Sprite):
         surface.blit(self.image, (self.x, self.y))
 
 #Initializes the player and the pipes
-first_pipe = Pipe(first_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30, 3)
-second_pipe = Pipe(second_pipe_pos, display_height/2 + 50, display_height/2 - 50, 30, 3)
+first_pipe = Pipe(display_width, display_height/2 + 50, display_height/2 - 50, 30, 3)
+second_pipe = Pipe(display_width/2, display_height/2 + 50, display_height/2 - 50, 30, 3)
+
 bird = Bird(10, display_height/2, 5, 3)
 
 while True:
@@ -80,6 +76,7 @@ while True:
     # DESCRIPTION redraws the pipes
     first_pipe.draw()
     second_pipe.draw()
+
 
     # DESCRIPTION check if one of the pipe classes has crossed the left edge
     first_pipe.left_collide()

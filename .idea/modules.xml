@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Classes and Objects Playground.iml" filepath="$PROJECT_DIR$/.idea/Classes and Objects Playground.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Kodeklubben/.idea/Kodeklubben.iml" filepath="$PROJECT_DIR$/../Kodeklubben/.idea/Kodeklubben.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../PythonChallenge/.idea/PythonChallenge.iml" filepath="$PROJECT_DIR$/../PythonChallenge/.idea/PythonChallenge.iml" />
     </modules>
   </component>
 </project>
