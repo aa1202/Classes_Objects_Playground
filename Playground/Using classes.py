@@ -20,8 +20,10 @@ class Pipe():
         self.width = width
         self.pipe_speed = pipe_speed
 
-    def draw(self):
+    def move(self):
         self.x -= self.pipe_speed
+
+    def draw(self):
         pygame.draw.rect(gameDisplay, green, [self.x, 0, self.height, self.width]) #TOP
         pygame.draw.rect(gameDisplay, green, [self.x, self.y, self.height, self.width]) #BOT
 
@@ -32,7 +34,7 @@ class Pipe():
 
 class Bird(pygame.sprite.Sprite):
     def __init__(self, x, y, gravity, force):
-        self.image = pygame.image.load("flappy.jpg")
+        self.image = pygame.image.load("flappy.png")
         self.x = x
         self.y = y
         self.direction = "none"
@@ -58,6 +60,7 @@ class Bird(pygame.sprite.Sprite):
 first_pipe = Pipe(display_width, display_height/2 + 50, display_height/2 - 50, 30, 3)
 second_pipe = Pipe(display_width/2, display_height/2 + 50, display_height/2 - 50, 30, 3)
 
+
 bird = Bird(10, display_height/2, 5, 3)
 
 while True:
@@ -74,7 +77,9 @@ while True:
     bird.draw(gameDisplay)
 
     # DESCRIPTION redraws the pipes
+    first_pipe.move()
     first_pipe.draw()
+    second_pipe.move()
     second_pipe.draw()
 
 

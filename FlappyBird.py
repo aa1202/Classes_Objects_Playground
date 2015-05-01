@@ -49,6 +49,7 @@ modified_game_variables = False
 score_requirement = 3
 color = None
 valid_connection, cur = connect_to_database()
+
 # Sets FPS and defines a color list (for the pipes)
 FPS = 60
 clock = pygame.time.Clock()
