@@ -86,10 +86,10 @@ while True:
     # DESCRIPTION check if one of the pipe classes has crossed the left edge
     first_pipe.left_collide()
     second_pipe.left_collide()
-
+    pos = pygame.mouse.get_pos()[0]
+    print(pos)
     pygame.display.update()
     clock.tick(60)
-
 
 
 
