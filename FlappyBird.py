@@ -133,15 +133,11 @@ def obstacle_properties(recttype):
     pipe_width = 40
     color = red
     if recttype == 1:
-        pipe_positions = random.choice(
-            [(100, -400), (150, -350), (200, -300), (250, -250), (300, -200), (350, -150),
-             (400, -100)])
+        pipe_positions = random.choice([(100, -400), (150, -350), (200, -300), (250, -250), (300, -200), (350, -150),(400, -100)])
         topPipe_height = pipe_positions[0]
         pipe_height = pipe_positions[1]
     elif recttype == 2:
-        pipe_positions_2 = random.choice(
-            [(100, -400), (150, -350), (200, -300), (250, -250), (300, -200), (350, -150),
-             (400, -100)])
+        pipe_positions_2 = random.choice([(100, -400), (150, -350), (200, -300), (250, -250), (300, -200), (350, -150),(400, -100)])
         toppipe_height_2 = pipe_positions_2[0]
         pipe_height_2 = pipe_positions_2[1]
 
