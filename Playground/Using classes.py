@@ -1,6 +1,6 @@
 import pygame
 import sys
-from random import choice
+import random
 
 pygame.init()
 size = display_width, display_height = [900, 600]
@@ -9,32 +9,35 @@ clock = pygame.time.Clock()
 direction = None
 img_file = pygame.image.load("flappy.jpg")
 
+
+
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 
 class Pipe():
-    def __init__(self, x, y, height):
-        self.x = x
-        self.y = y
+    #Constructor
+    def __init__(self, start_position_x, pipe_height_constant):
+        global pipe_positions
+        self.x = start_position_x
         self.width = 30
-        self.height = height
+        self.height = pipe_height_constant
         self.pipe_speed = 3
 
-    def properties(self):
-        pass
-        # Assign random pipe gaps here
-
-    def move(self):
-        self.x -= self.pipe_speed
+        pipe_positions = random.choice([(100, -400), (150, -350), (200, -300), (250, -250), (300, -200), (350, -150),(400, -100)])
 
     def left_collide(self):
         if self.x >= display_width or self.x < 0:
             self.x = display_width
 
+    def move(self):
+        self.x -= self.pipe_speed
+
     def draw(self):
-        pygame.draw.rect(gameDisplay, green, [self.x, 0, self.width, self.height]) #TOP
-        pygame.draw.rect(gameDisplay, green, [self.x, self.y, self.width, self.height]) #BOT
+        pygame.draw.rect(gameDisplay, green, [self.x, 0, self.width, pipe_positions[0]]) #TOP
+        pygame.draw.rect(gameDisplay, green, [self.x, display_height, self.width, pipe_positions[1]]) #BOT
+
+
 
 
 
@@ -78,15 +81,10 @@ class Bird(pygame.sprite.Sprite):
 pipe_positions = [display_width/2, display_width]
 pipes = []
 for i in range(2):
-    pipe = Pipe(pipe_positions[i], display_height/2 + 50, display_height/2 - 50)
+    pipe = Pipe(pipe_positions[i], 200)
     pipes.append(pipe)
+player = Bird(img_file, display_height/2, 3, 5)
 
-
-birds = []
-for i in range(1):
-    location = (10, display_height/2)
-    player = Bird(img_file, display_height/2, 3, 5)
-    birds.append(player)
 
 while True:
     gameDisplay.fill(blue)
@@ -94,12 +92,10 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
 
-    # DESCRIPTION redraw the bird(s). Since a list is used, multiple birds should work, same as multiple pipes.
-    # although it will not make sense gameplay wise
-    for bird in birds:
-        bird.handle_keys()
-        bird.move()
-        bird.draw(gameDisplay)
+    # DESCRIPTION redraw the bird
+    player.handle_keys()
+    player.move()
+    player.draw(gameDisplay)
 
     # DESCRIPTION redraws the pipes, one by one in the list
     for pipe in pipes:
@@ -109,7 +105,8 @@ while True:
 
         if pipe.x == 0:
             pipes.remove(pipe)
-            pipe = Pipe(display_width, display_height/2 + 50, display_height/2 - 50)
+            pipe = Pipe(display_width, 200)
+            print(pipe_positions)
             pipes.append(pipe)
 
     pygame.display.update()
