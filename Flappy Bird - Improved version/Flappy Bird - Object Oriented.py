@@ -15,8 +15,8 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 
-block_list = []
-all_sprites_list = []
+block_list = pygame.sprite.Sprite()
+all_sprites_list = pygame.sprite.Group
 
 class Pipe(pygame.sprite.Sprite):
     def __init__(self, color, width, height):
@@ -60,8 +60,8 @@ for i in range(50):
     pipe.rect.x = random.randrange(display_width - 20)
     pipe.rect.y = random.randrange(display_height - 15)
 
-    block_list.append(pipe)
-    all_sprites_list.append(pipe)
+    block_list.add(pipe)
+    all_sprites_list.add(pipe)
 
 player = Bird(red, 20, 20)
 all_sprites_list.append(player)
