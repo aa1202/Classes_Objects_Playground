@@ -6,8 +6,8 @@ import logging
 import random
 import webbrowser
 import pygame
-import pymysql
-from database import connect_to_database
+#import pymysql
+#from database import connect_to_database
 
 # Modify the logging output. If it's logging.WARNING only logging.warning("someError") will be displayed.
 # If it's logging.INFO as default, every logging.info("someText") will be displayed.
@@ -20,7 +20,7 @@ display_width = 800
 display_height = 600
 game_display = pygame.display.set_mode([display_width, display_height])
 pygame.display.set_caption('Flappy Bird')
-background = pygame.image.load("Sprites\\bg.jpg").convert()
+background = pygame.image.load("bg.jpg").convert()
 game_display.blit(background, [0, 0])
 
 # Defines some essentials colors
@@ -48,7 +48,8 @@ mixer_playing = False
 modified_game_variables = False
 score_requirement = 3
 color = None
-valid_connection, cur = connect_to_database()
+#valid_connection, cur = connect_to_database()
+valid_connection = False
 
 # Sets FPS and defines a color list (for the pipes)
 FPS = 60
@@ -173,7 +174,7 @@ def move_player(x, y):
 def write_score_to_database(score, name):
     # Writes score and name to the MySQL database.
     # This function is called whenever the user crashes and the outputScore is >= 3
-    connect_to_database()
+    #connect_to_database()
     cur = db.cursor()
     cur.execute(
         "INSERT INTO highscores (username, score) VALUES ('" + str(name) + "'," + str(score) + ")")
@@ -261,7 +262,7 @@ def pause_screen():
 def highscore_screen():
     # introMusic.play(5)
     # Separate screen which shows the top 10 highscores from the database
-    connect_to_database()
+    #connect_to_database()
     controls_screen = True
     while controls_screen:
         for event in pygame.event.get():
@@ -500,7 +501,7 @@ def main_screen():
 
         # Displays the highscore (and name) and current score
         outputScore = int(final_score / 3)
-        render_info_to_screen(outputScore)
+        #render_info_to_screen(outputScore)
 
         # Hitdetection for pipes
         if first_pipe_location >= display_width or first_pipe_location < 0:

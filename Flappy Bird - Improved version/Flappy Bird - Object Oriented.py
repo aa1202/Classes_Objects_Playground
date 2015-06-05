@@ -18,6 +18,7 @@ blue = (0, 0, 255)
 block_list = pygame.sprite.Sprite()
 all_sprites_list = pygame.sprite.Group
 
+#Define the pipe class
 class Pipe(pygame.sprite.Sprite):
     def __init__(self, color, width, height):
         pygame.sprite.Sprite.__init__(self)
@@ -25,7 +26,7 @@ class Pipe(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
 
-
+#Define the bird class
 class Bird(pygame.sprite.Sprite):
     image = pygame.image.load("flappy.png")
     image = image.convert_alpha()
@@ -53,18 +54,17 @@ class Bird(pygame.sprite.Sprite):
 
 pipe_positions = [display_width/2, display_width]
 for i in range(50):
-
     pipe = Pipe(red, 20, 15)
 
     # Sets the rect x and y position of the block, by default it is in x = 0 and y = 0
     pipe.rect.x = random.randrange(display_width - 20)
     pipe.rect.y = random.randrange(display_height - 15)
 
-    block_list.add(pipe)
-    all_sprites_list.add(pipe)
+    #block_list.add(pipe)
+    #all_sprites_list.add(pipe)
 
 player = Bird(red, 20, 20)
-all_sprites_list.append(player)
+#all_sprites_list.append(player)
 
 while True:
     gameDisplay.fill(blue)
@@ -76,9 +76,9 @@ while True:
     player.move()
     player.draw(gameDisplay)
 
-    blocks_hit_list = pygame.sprite.spritecollide(player, block_list, True)
+    #blocks_hit_list = pygame.sprite.spritecollide(player, block_list, True)
 
-    all_sprites_list.draw(gameDisplay)
+    #all_sprites_list.draw(gameDisplay)
 
 
 
