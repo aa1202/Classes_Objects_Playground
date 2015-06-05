@@ -50,8 +50,6 @@ class Bird(pygame.sprite.Sprite):
     def draw(self, surface):
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
-
-
 pipe_positions = [display_width/2, display_width]
 for i in range(50):
     pipe = Pipe(red, 20, 15)
@@ -60,11 +58,11 @@ for i in range(50):
     pipe.rect.x = random.randrange(display_width - 20)
     pipe.rect.y = random.randrange(display_height - 15)
 
-    #block_list.add(pipe)
-    #all_sprites_list.add(pipe)
+    block_list.add(pipe)
+    all_sprites_list.add(pipe)
 
 player = Bird(red, 20, 20)
-#all_sprites_list.append(player)
+all_sprites_list.append(player)
 
 while True:
     gameDisplay.fill(blue)
@@ -76,11 +74,8 @@ while True:
     player.move()
     player.draw(gameDisplay)
 
-    #blocks_hit_list = pygame.sprite.spritecollide(player, block_list, True)
-
-    #all_sprites_list.draw(gameDisplay)
-
-
+    blocks_hit_list = pygame.sprite.spritecollide(player, block_list, True)
+    all_sprites_list.draw(gameDisplay)
 
     pygame.display.update()
     clock.tick(60)
