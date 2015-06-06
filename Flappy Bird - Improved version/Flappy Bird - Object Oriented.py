@@ -14,6 +14,7 @@ img_file = pygame.image.load("flappy.jpg")
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
+black = (0, 0, 0)
 
 block_list = pygame.sprite.Sprite()
 all_sprites_list = pygame.sprite.Group
@@ -28,11 +29,10 @@ class Pipe(pygame.sprite.Sprite):
 
 #Define the bird class
 class Bird(pygame.sprite.Sprite):
-    image = pygame.image.load("flappy.png")
-    image = image.convert_alpha()
-    def __init__(self, color, width, height):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = img_file.image
+    def __init__(self):
+        self.original_image = pygame.image.load("flappy.jpg").convert()
+        self.image = self.original_image
+        self.image.set_colorkey(black)
         self.rect = self.image.get_rect()
 
     def handle_keys(self):
